@@ -1,0 +1,23 @@
+{
+    "videos": [{
+        "path": "video/videoTest1.mp4",
+        "actors": [{
+            "name": "parent",
+            "description": ""
+        }, {
+            "name": "enfant",
+            "description": ""
+        }],
+        "age": ""
+}, {
+        "path": "video/videoTest1.mp4",
+        "actors": [{
+            "name": "parent",
+            "description": "A woman with a red dress"
+        }, {
+            "name": "enfant",
+            "description": ""
+        }],
+        "age": ""
+}]
+}
