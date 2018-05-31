@@ -1,4 +1,5 @@
 var nbActors = 0; //description.length;
+var actors = new Array();
 
 console.log("le script est chargé");
 // have to be remove, it will be useless 
@@ -34,8 +35,12 @@ function getAndSetActors(idVideo) {
                 // Récupération des noms et description des acteurs
                 $.each(this.actors, function (j) {
                     var actor = chooseNameOrDescription(this.name, this.description);
+                    actors[nbActors] = actor;
+                    //incrémentation du nombre d'acteurs
+                    nbActors++;
                     // ajout au visuel
-                    addFormActors(actor);
+                    addFormActors(actor, nbActors);
+
                 });
             }
         });
@@ -52,16 +57,18 @@ function chooseNameOrDescription(name, description) {
     }
 }
 
-function addFormActors(actor) {
+function addFormActors(actor, i) {
     var p = document.createElement("p");
     p.append(actor);
+    p.id = "pRadioBloc" + i;
 
-    var presentButton = makeRadioButton("actor" + 1, 1, "present", "responseButton");
+    var presentButton = makeRadioButton("actor" + i, 1, "present", "responseButton");
     p.appendChild(presentButton);
 
-    var absentButton = makeRadioButton("actor" + 2, 0, "absent", "responseButton");
+    var absentButton = makeRadioButton("actor" + i, 0, "absent", "responseButton");
     p.appendChild(absentButton);
     actorDiv.appendChild(p);
+    document.getElementsByName("actor"+i)[0].required = true;
 }
 
 
@@ -82,5 +89,13 @@ function makeRadioButton(name, value, text, classname) {
 }
 
 
-getAndSetActors(1);
+//do nothing have to be remove, just in case I need a template for a event
+$(document).ready(function () {
+    $(document).on("click", "#submitTask1", function () {
+        //if( )
+        //alert("hi");
+    });
+});
 
+
+getAndSetActors(1);

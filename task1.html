@@ -18,13 +18,17 @@
         <video id="video" src="" controls poster="sintel.jpg" width="600"></video>
     </div>
 
-    <h2 id="trouver-les-acteurs">Trouver les acteurs</h2>
-    <p>Consigne faire apparaitre les noms avec les descriptions + chex box</p>
-    <form>
-        <p>description</p>
-        <div id="actorDiv">
-        </div>
-    </form>
+    <div>
+        <h2 id="trouver-les-acteurs">Trouver les acteurs</h2>
+        <p>Consigne faire apparaitre les noms avec les descriptions + chex box</p>
+        <form method="post" action = treatment.php enctype="multipart/form-data">
+            <p>description</p>
+            <div id="actorDiv">
+            </div>
+            <input type="submit" id="submitTask1" value="send" />
+        </form>
+    </div>
+
 
 </body>
 
