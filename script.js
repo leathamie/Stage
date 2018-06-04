@@ -1,5 +1,28 @@
-var nbActors = 0; //description.length;
-var actors = new Array();
+//var nbActors = 0; //description.length;
+//var actors = new Array();
+
+var exp = {
+    date: new Date().getTime(),
+    idTurker: 0,
+    videoPath: "",
+    nbActors: 0,
+    actors: new Array(),
+    idPresent: new Array(),
+
+    toString: function () {
+        var act = "";
+        $.each(this.actors, function () {
+            act = act + this;
+        });
+        var idP = "";
+        $.each(this.idPresent, function () {
+            idP = idP + this;
+        });
+        return this.date.toString() + ";" + this.idTurker + ";" + this.videoPath + ";" + act + ";" + idP;
+    }
+
+
+}
 
 console.log("le script est chargé");
 // have to be remove, it will be useless 
@@ -8,7 +31,6 @@ function getVideoByid(idVideo) {
     $.getJSON('video.json', function (data) {
         $.each(data.videos, function (i) {
             if (i === idVideo) {
-                console.log("on est dedans! ");
                 p = this.path;
                 console.log("le path que l'on vient de récupérer avec classe : " + p);
                 // Récupération des noms et description des acteurs
@@ -30,16 +52,15 @@ function getAndSetActors(idVideo) {
     $.getJSON('video.json', function (data) {
         $.each(data.videos, function (i) {
             if (i === idVideo) {
-                console.log("on est dedans! ");
                 video.src = this.path;
                 // Récupération des noms et description des acteurs
                 $.each(this.actors, function (j) {
                     var actor = chooseNameOrDescription(this.name, this.description);
-                    actors[nbActors] = actor;
+                    exp.actors[exp.nbActors] = actor;
                     //incrémentation du nombre d'acteurs
-                    nbActors++;
+                    exp.nbActors++;
                     // ajout au visuel
-                    addFormActors(actor, nbActors);
+                    addFormActors(actor, exp.nbActors);
 
                 });
             }
@@ -57,6 +78,7 @@ function chooseNameOrDescription(name, description) {
     }
 }
 
+/*
 function addFormActors(actor, i) {
     var p = document.createElement("p");
     p.append(actor);
@@ -70,9 +92,36 @@ function addFormActors(actor, i) {
     actorDiv.appendChild(p);
     document.getElementsByName("actor"+i)[0].required = true;
 }
+*/
+
+function addFormActors(actor, i) {
+    var p = document.createElement("p");
+    p.append(actor);
+    p.id = "pCheckboxBloc" + i;
+    var presentButton = createCheckBox("actor" + i, " present", "responseButton", i - 1);
+    p.appendChild(presentButton);
+
+    actorDiv.appendChild(p);
+}
+
+
+function createCheckBox(name, text, classname, value) {
+    var label = document.createElement("label");
+    var checkBox = document.createElement("input");
+    checkBox.type = "checkbox";
+    checkBox.name = name;
+    checkBox.class = classname;
+    checkBox.value = value;
+
+    label.appendChild(checkBox);
+    label.appendChild(document.createTextNode(text));
+
+    return label;
+}
 
 
 
+/// remove
 function makeRadioButton(name, value, text, classname) {
     var label = document.createElement("label");
     var radio = document.createElement("input");
@@ -89,13 +138,34 @@ function makeRadioButton(name, value, text, classname) {
 }
 
 
+function setChecked(){
+    var recup = document.forms[0];
+    var i;
+    for (i = 0; i < recup.length; i++) {
+        if (recup[i].checked) {
+            console.log("value inside the recup[i].checked " + recup[i].value);
+            exp.idPresent.push(recup[i].value);
+        }
+    }
+}
+function saveData() {
+    setChecked();
+     $.post("save_results.php", {"results": exp.toString()});
+}
+
+
+$(document).ready(function () {
+    console.log($('.responseButton'));
+    console.log($('.responseButton').checked);
+});
+
+
 //do nothing have to be remove, just in case I need a template for a event
 $(document).ready(function () {
-    $(document).on("click", "#submitTask1", function () {
+    $(document).on("click", "#actorDiv", function () {
         //if( )
         //alert("hi");
     });
 });
-
 
 getAndSetActors(1);

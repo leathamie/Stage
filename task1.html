@@ -21,11 +21,11 @@
     <div>
         <h2 id="trouver-les-acteurs">Trouver les acteurs</h2>
         <p>Consigne faire apparaitre les noms avec les descriptions + chex box</p>
-        <form method="post" action = treatment.php enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data">
             <p>description</p>
             <div id="actorDiv">
             </div>
-            <input type="submit" id="submitTask1" value="send" />
+            <input type="button" id="submitTask1" value="send" onclick="saveData()" />
         </form>
     </div>
 
