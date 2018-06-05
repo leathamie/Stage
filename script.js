@@ -7,24 +7,13 @@ var exp = {
     videoPath: "",
     nbActors: 0,
     actors: new Array(),
-    idPresent: new Array(),
-
-    toString: function () {
-        var act = "";
-        $.each(this.actors, function () {
-            act = act + this;
-        });
-        var idP = "";
-        $.each(this.idPresent, function () {
-            idP = idP + this;
-        });
-        return this.date.toString() + ";" + this.idTurker + ";" + this.videoPath + ";" + act + ";" + idP;
-    }
+    idPresent: new Array()
 
 
 }
 
 console.log("le script est chargé");
+
 // have to be remove, it will be useless 
 function getVideoByid(idVideo) {
     //Récupération des donnés Json
@@ -138,7 +127,7 @@ function makeRadioButton(name, value, text, classname) {
 }
 
 
-function setChecked(){
+function setChecked() {
     var recup = document.forms[0];
     var i;
     for (i = 0; i < recup.length; i++) {
@@ -148,9 +137,28 @@ function setChecked(){
         }
     }
 }
+
+// Function to concatenate key and values of dictionary into string
+function dict_to_str(dict) {
+    var str = '';
+    for (var key in dict) {
+        str = str.concat(dict[key], ';');
+    }
+    return str + "\n";
+
+    
+}
+
 function saveData() {
     setChecked();
-     $.post("save_results.php", {"results": exp.toString()});
+    var expStr = dict_to_str(exp);
+    console.log("contenu de expStr : " + expStr);
+    console.log("avant l'appel");
+
+    $.post("save_results.php", {
+        "results": dict_to_str(exp)
+    });
+
 }
 
 
